@@ -1,0 +1,6 @@
+
+#--------------------------------------------#
+
+# clubvips specific Android stuff
+RUN ( sleep 4 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --no-ui --force -a --filter \
+    build-tools-23.0.3,android-23

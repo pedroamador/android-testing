@@ -9,14 +9,4 @@ platform :android do
     gradle(task:"clean")
     gradle(task:"assembleDebug")
   end
-  desc "Generate UAT build"
-  lane :quality do |options|
-    gradle(task:"clean")
-    gradle(task:"assembleDebug")
-  end
-  desc "Generate GA build"
-  lane :master do |options|
-    gradle(task:"clean")
-    gradle(task:"assembleDebug")
-  end
 end
