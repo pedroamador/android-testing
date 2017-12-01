@@ -12,7 +12,6 @@ build
 /.gem
 /.gradle
 
-/Dockerfile
 /ci-scripts/.*
 
 # fastlane result

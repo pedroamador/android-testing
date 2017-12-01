@@ -1,8 +1,8 @@
 #!groovy
 
-@Library('github.com/red-panda-ci/jenkins-pipeline-library') _
+@Library('github.com/red-panda-ci/jenkins-pipeline-library@2.1.1') _
 
-// Initialize global condig (jpl v1.4.1)
+// Initialize global condig (jpl v2.1.1)
 cfg = jplConfig('android-testing', 'android' ,'', [hipchat: '', slack: '', email: 'pedroamador.rodriguez+android-testing@gmail.com'])
 
 pipeline {
@@ -10,16 +10,23 @@ pipeline {
     agent none
 
     stages {
-        stage ('Checkout SCM') {
+        stage ('Initialize') {
             agent { label 'docker' }
             steps  {
-                jplCheckoutSCM(cfg)
+                jplStart(cfg)
             }
         }
         stage ('Build') {
             agent { label 'docker' }
             steps  {
-                jplBuild(cfg)
+                script {
+                    def androidBuildEnv = docker.build('jpl-test')
+                    androidBuildEnv.inside {
+                        sh 'fastlane develop'
+                    }
+
+
+                }
             }
         }
         stage('SonarQube Analysis') {
@@ -40,13 +47,6 @@ pipeline {
             when { branch 'release/v*' }
             steps {
                 jplCloseRelease(cfg)
-            }
-        }
-        stage ('PR Clean') {
-            agent { label 'docker' }
-            when { branch 'PR-*' }
-            steps {
-                deleteDir()
             }
         }
     }
