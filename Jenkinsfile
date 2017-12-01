@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('github.com/red-panda-ci/jenkins-pipeline-library@2.1.1') _
+@Library('github.com/red-panda-ci/jenkins-pipeline-library@v2.1.1') _
 
 // Initialize global condig (jpl v2.1.1)
 cfg = jplConfig('android-testing', 'android' ,'', [hipchat: '', slack: '', email: 'pedroamador.rodriguez+android-testing@gmail.com'])
