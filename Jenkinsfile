@@ -1,9 +1,10 @@
 #!groovy
 
-@Library('github.com/red-panda-ci/jenkins-pipeline-library@v2.1.1') _
+@Library('github.com/red-panda-ci/jenkins-pipeline-library@v2.2.2') _
 
-// Initialize global condig (jpl v2.1.1)
-cfg = jplConfig('android-testing', 'android' ,'', [hipchat: '', slack: '', email: 'pedroamador.rodriguez+android-testing@gmail.com'])
+// Initialize global condig
+cfg = jplConfig('android-testing', 'android' ,'', [hipchat: '', slack: '', email: 'redpandaci+android-testing@gmail.com'])
+cfg.androidPackages = 'build-tools-23.0.3,android-23'
 
 pipeline {
 
@@ -20,12 +21,7 @@ pipeline {
             agent { label 'docker' }
             steps  {
                 script {
-                    def androidBuildEnv = docker.build('jpl-test')
-                    androidBuildEnv.inside {
-                        sh 'fastlane develop'
-                    }
-
-
+                    jplBuild(cfg)
                 }
             }
         }
